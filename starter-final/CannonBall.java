@@ -1,4 +1,3 @@
-// WARNING: This file is auto-generated and any changes to it will be overwritten
 import lang.stride.*;
 import java.util.*;
 import greenfoot.*;
@@ -14,5 +13,44 @@ public class CannonBall extends Actor
      */
     public void act()
     {
+        move(1);
+        getTarget();
+        if (isGameLose()) {
+            transitionToGameOverWorld();
+        }
+    }
+    /**
+     * When the Balls get to the Ladybug 
+     */
+    public void getTarget()
+    {
+        Actor ladybug = getOneIntersectingObject(Ladybug.class);
+        if (ladybug != null) {
+            World world = getWorld();
+            world.removeObject(ladybug);
+        }
+    }
+    
+    /**
+     * Check if the Ladybug is been reached
+     */
+    public boolean isGameLose()
+    {
+        World world = getWorld();
+        if (world.getObjects(Ladybug.class).isEmpty()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    /**
+     * Transition to Game Over World
+     */
+    public void transitionToGameOverWorld()
+    {
+        World gameOverWorld =  new  GameOverWorld();
+        Greenfoot.setWorld(gameOverWorld);
+        Greenfoot.playSound("lose.wav");
     }
 }
